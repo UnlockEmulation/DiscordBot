@@ -14,7 +14,7 @@ with open("tracker.json", "r") as tracker:
     tracker.close()
 
 
-#  Once the bot is ready it sets the "status" of the bot to show it's "Watching !help"
+# Once the bot is ready it sets the "status" of the bot to show it's "Watching !help"
 @bot.event
 async def on_ready():
     print("Connected to discord as {0.user}".format(bot))
@@ -30,21 +30,21 @@ async def on_command_error(ctx, error):
     raise error
 
 
-#  Command for loading a cog
+# Command for loading a cog
 @bot.command(hidden=True)
 async def load(ctx, extension):
     bot.load_extension(f'cogs.{extension}')
     await ctx.send(f"Cog '{extension}' loaded")
 
 
-#  Command for unloading a cog
+# Command for unloading a cog
 @bot.command(hidden=True)
 async def unload(ctx, extension):
     bot.unload_extension(f'cogs.{extension}')
     await ctx.send(f"Cog '{extension}' unloaded")
 
 
-#  Command for reloading the cogs
+# Command for reloading the cogs
 @bot.command(hidden=True)
 async def reload(ctx, extension):
     bot.unload_extension(f'cogs.{extension}')
@@ -52,7 +52,7 @@ async def reload(ctx, extension):
     await ctx.message.delete()
 
 
-#  Shuts down the bot
+# Shuts down the bot
 @bot.command(hidden=True)
 async def sd(ctx):
     if ctx.message.author.id == me:
@@ -70,7 +70,7 @@ async def sd(ctx):
         await ctx.send("You're not gonna wanna do that one...", delete_after=10)
 
 
-#  Used for debugging certain commands
+# Used for debugging certain commands
 @bot.command(hidden=True)
 async def debug(ctx):
     await ctx.message.delete()
@@ -91,12 +91,12 @@ async def test(ctx):
     await ctx.send("your message is {} characters long.".format(len(ctx.message.content)), delete_after=5)'''
 
 
-#  loads in the cogs once the file is run
+# loads in the cogs once the file is run
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
-
+# replies to messages with ferda in the message
 @bot.event
 async def on_message(message):
     if message.author == bot.user:

@@ -1,4 +1,4 @@
-from email import message
+# from email import message
 from discord.ext import commands
 import discord
 import json
@@ -10,6 +10,7 @@ class PointTracker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Command for adding/removing/setting points
     @commands.command(help="Adds, removes or sets points for a given user", category='Test')
     async def points(self, ctx, add_remove_set, amount=None, user: discord.Member = None):
         Event().wait(1)
@@ -45,6 +46,7 @@ class PointTracker(commands.Cog):
             else:
                 await ctx.send("Something went wrong", delete_after=10)
 
+    # Adds users into the database
     @commands.command(help="Adds a user into the system")
     async def add_user(self, ctx, user: discord.Member):
         Event().wait(1)
@@ -62,6 +64,7 @@ class PointTracker(commands.Cog):
             response = "Something weird happened"  # Catch for if there isn't a real user specified or something else
         await ctx.send(response, delete_after=10)
 
+    # Removes users from the database
     @commands.command(help="Removes a user from the system")
     async def remove_user(self, ctx, user: discord.Member):
         Event().wait(1)
@@ -79,6 +82,7 @@ class PointTracker(commands.Cog):
             response = "Something weird happened"
         await ctx.send(response, delete_after=5)
 
+    # Shows a specific users point value
     @commands.command(help="Shows a users current point value")
     async def show(self, ctx, user: discord.Member = None):
         Event().wait(1)
@@ -95,7 +99,8 @@ class PointTracker(commands.Cog):
             result = "Something weird happened"
         await ctx.send(result, delete_after=20)
 
-    @commands.command(help="Shows all users + points")  # done
+    # Shows every users points value
+    @commands.command(help="Shows all users + points")
     async def list(self, ctx):
         Event().wait(1)
         await ctx.message.delete()
@@ -106,19 +111,10 @@ class PointTracker(commands.Cog):
             i += 1
         await ctx.send(str(response))
 
-    @commands.command(hidden=True)  # not important to fix, debugging feature
+    '''@commands.command(hidden=True) # not important to fix, debugging feature
     async def find(self, ctx, user: discord.Member):
         Event().wait(1)
-        await ctx.send(str(user.id) + '\n' + str(user) + '\n' + str(user.mention))
-
-    @commands.command(hidden=True)
-    async def set_id(self, ctx, user, amount):
-        Event().wait(1)
-        names[user] = int(amount)
-        result = f"<@{user}>'s new balance is: {names[user]} "
-        with open("tracker.json", "w") as f:
-            json.dump(names, f, indent=2)
-        await ctx.send(result + "\n Changed by " + ctx.message.author.mention)
+        await ctx.send(str(user.id) + '\n' + str(user) + '\n' + str(user.mention))'''
 
     @commands.command(hidden=True)
     async def test_me(self, ctx, user):
