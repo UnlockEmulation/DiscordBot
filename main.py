@@ -56,6 +56,7 @@ async def reload(ctx, extension):
 @bot.command(hidden=True)
 async def sd(ctx):
     if ctx.message.author.id == me:
+        await ctx.voice_client.disconnect()
         Event().wait(1)
         await ctx.message.delete()
         message = await ctx.send("Shutting down")
