@@ -1,11 +1,17 @@
+'''
+What this does:
+Keeps track of the commands used by the users of the bot
+
+// Script is finished
+'''
 from discord.ext import commands
 from datetime import datetime
 
 
 class CommandTracker(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.Cog.listener(name='on_command')
     async def print(self, ctx):
@@ -20,5 +26,5 @@ class CommandTracker(commands.Cog):
         history.close()
 
 
-def setup(client):
-    client.add_cog(CommandTracker(client))
+def setup(bot):
+    bot.add_cog(CommandTracker(bot))

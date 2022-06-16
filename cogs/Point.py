@@ -1,4 +1,9 @@
-# from email import message
+'''
+What this does:
+Holds all the commands related to the points
+
+script is finished unless more are requested
+'''
 from discord.ext import commands
 import discord
 import json
