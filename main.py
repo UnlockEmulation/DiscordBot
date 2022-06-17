@@ -47,8 +47,14 @@ async def unload(ctx, extension):
 # Command for reloading the cogs
 @bot.command(hidden=True)
 async def reload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-    bot.load_extension(f'cogs.{extension}')
+    if extension != 'all':
+        bot.unload_extension(f'cogs.{extension}')
+        bot.load_extension(f'cogs.{extension}')
+    if extension == 'all':
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                bot.unload_extension(f'cogs.{filename[:-3]}')
+                bot.load_extension(f'cogs.{filename[:-3]}')
     await ctx.message.delete()
 
 
@@ -64,7 +70,7 @@ async def sd(ctx):
         await ctx.message.delete()
         message = await ctx.send("Shutting down")
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="shutdown"))
-        Event().wait(5)
+        Event().wait(2)
         await message.delete()
         await bot.change_presence(status=discord.Status.offline)
         await bot.close()
