@@ -33,7 +33,6 @@ ffmpeg_options = {
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
-
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
         super().__init__(source, volume)
@@ -69,7 +68,7 @@ class music (commands.Cog):
         else:
             await ctx.voice_client.move_to(voiceChannel)'''
 
-    @commands.command()
+    @commands.command(help="Plays a given song link")
     async def play(self, ctx, *, url):
         async with ctx.typing():
             player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
@@ -77,16 +76,16 @@ class music (commands.Cog):
                 'Player error: %s' % e) if e else None)
         await ctx.send('Now playing: {}'.format(player.title))
     
-    @commands.command()
+    @commands.command(help="Stops music playback")
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
 
-    @commands.command()
+    @commands.command(help="Pauses music playback")
     async def pause(self, ctx):
         await ctx.voice_client.pause()
         await ctx.send("Paused")
 
-    @commands.command()
+    @commands.command(help="Resumes music playback")
     async def resume(self, ctx):
         await ctx.voice_client.resume()
         await ctx.send("Resumed")
