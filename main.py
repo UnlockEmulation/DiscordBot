@@ -6,7 +6,7 @@ from threading import Event
 from discord.ext.commands import CommandNotFound
 
 me = 267588669781573634  # sets my discord ID for quick reference
-bot = commands.Bot(command_prefix='!')  # sets the prefix you need to use when calling a command
+bot = commands.Bot(command_prefix='!', case_insensitive=True)  # sets the prefix you need to use when calling a command
 
 # gets the point value and corresponding user ID and sets them into a 2D array
 with open("tracker.json", "r") as tracker:
@@ -20,14 +20,10 @@ async def on_ready():
     print("Connected to discord as {0.user}".format(bot))
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="!help"))
 
-
-# Error catching
 @bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, CommandNotFound):
-        await ctx.send("There was an error", delete_after=5)
-        return
-    raise error
+async def on_message(message):
+    message.content = message.content_lower()
+    await bot.process_commands(message)
 
 
 # Command for loading a cog
@@ -115,6 +111,13 @@ async def on_message(message):
         await message.channel.send('FERDA BOIS')
     await bot.process_commands(message)
 
+# Error catching
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.send("There was an error", delete_after=5)
+        return
+    raise error
 
 text_file = open("bot token.txt", "r")
 botToken = text_file.read()
