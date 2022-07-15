@@ -59,7 +59,7 @@ class Music (commands.Cog):
         self.queue = []
         self.queuePos = 0
 
-    @commands.command()
+    @commands.command(help="Has the bot join the Voice Channel that you're in")
     async def join(self, ctx):
         if not ctx.message.author.voice:
             await ctx.send("You are not connected to a voice channel!")
@@ -73,6 +73,7 @@ class Music (commands.Cog):
         try:
             async with ctx.typing():
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                await ctx.message.delete()
                 ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
                 await ctx.send(f'Now playing: {player.title}')
         except:
@@ -80,35 +81,45 @@ class Music (commands.Cog):
 
     @commands.command(hidden=True)
     async def test(self, ctx, *, url):
+
+        
+
         try:
             async with ctx.typing():
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
                 if len(self.queue) == 0:
-                    await self.startPlaying(ctx.voice_client, player)
+                    await self.checkQueue(ctx.voice_client, player)
                     await ctx.send(f'Now playing: {player.title}')
                 else:
                     self.queue.append(player)
                     await ctx.send(f'Added {player.title} to the queue')
+                    print(self.queue)
         except Exception as e:
             await ctx.send(f"Something went wrong - Please try again later - Error: {e}")
 
-    async def startPlaying(self, voice_client, player):
-        self.queue.append(player)
-        i = 0
-        while i < len(self.queue):
-            try:
-                voice_client.play(self.queue[i], after=lambda e: print('Player error%s' % e) if e else None)
-            except:
-                pass
-            i += 1
+    @commands.command(hidden=True)
+    async def inVoice(self, ctx):
+        await ctx.message.delete()
+        if ctx.voice.is_playing():
+            await ctx.send("Yes")
+        else:
+            await ctx.send("No")
 
-    @commands.command()
+    async def checkQueue(self, ctx, id):
+        if self.queue[id] !=[]:
+            voice = ctx.guild.voice_client
+            source = self.queue[id].pop(0)
+            voice.play(source, after=lambda x=0: self.checkQueue(ctx, ctx.message.guild.id))
+        else:
+            await ctx.send('There is nothing in the Queue')
+
+    @commands.command(help="NOT WORKING -- Goes to the next song in the queue")
     async def skip(self, ctx):
         self.queuePos += 1
         ctx.voice_client.play(self.queue[self.queuePos], after=lambda e: print('Player error: %s' % e) if e else None)
         await ctx.send('Skipping')
 
-    @commands.command()
+    @commands.command(help="NOT WORKING -- Clears the queue")
     async def clear(self, ctx):
         self.queue = []
         self.queuePos = 0
@@ -118,7 +129,7 @@ class Music (commands.Cog):
             pass
         await ctx.send('Queue cleared')
 
-    @commands.command()
+    @commands.command(help="NOT WORKING -- displays the queue")
     async def queue(self, ctx):
         i = 0
         response = ''
@@ -146,6 +157,25 @@ class Music (commands.Cog):
     async def resume(self, ctx):
         ctx.voice_client.resume()
         await ctx.send("Resumed")
+
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+
+        if not member.id == self.bot.user.id:
+            return
+
+        elif before.channel is None:
+            voice = after.channel.guild.voice_client
+            time = 0
+            while True:
+                await asyncio.sleep(1)
+                time = time + 1
+                if voice.is_playing() and not voice.is_paused():
+                    time = 0
+                if time == 120:
+                    await voice.disconnect()
+                if not voice.is_connected():
+                    break
 
     @play.before_invoke
     async def ensure_voice(self, ctx):
