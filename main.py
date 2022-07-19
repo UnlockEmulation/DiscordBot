@@ -108,7 +108,10 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if 'ferda' in message.content.lower():
-        await message.channel.send('FERDA BOIS')
+        if message.author.id == 355140850847580160:
+            await message.channel.send("No, Andrew can't use ferda anymore")
+        else:
+            await message.channel.send('FERDA BOIS')
     await bot.process_commands(message)
 
 # Error catching
