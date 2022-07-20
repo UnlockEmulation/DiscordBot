@@ -9,6 +9,7 @@ import discord
 import json
 from threading import Event
 from main import names
+from datetime import datetime
 
 
 class PointTracker(commands.Cog):
@@ -70,9 +71,18 @@ class PointTracker(commands.Cog):
         await ctx.send(response, delete_after=10)
 
     #Tells bot to say something
-    @commands.command()
-    async def changelog(self, ctx):
-        await ctx.send("Andrew no longer has access to the 'ferda' command")
+    @commands.command(help='Tells you when it\'s time for the bois')
+    async def boisTime(self, ctx, user: discord.Member = None):
+        day = datetime.now()
+        hour = int(day.strftime('%H'))
+        if hour > 12:
+            hour = hour-12
+        if user == None:
+            await ctx.send(f"{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
+        elif user is not None:
+            await ctx.send(f"<@{user.id}>{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
+            pass
+        
 
     # Removes users from the database
     @commands.command(help="Removes a user from the system")

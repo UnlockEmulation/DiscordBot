@@ -20,7 +20,7 @@ class CommandTracker(commands.Cog):
         user = ctx.author
         command = ctx.message.content
         commandhistory = f'{server} > {user} > {command}'
-        wholedate = date.strftime("%B %d %Y - %H:%M:%S") # yy-MM-dd HH:mm:ss
+        wholedate = date.strftime("%B %d %Y - %H:%M:%S") # Month day year - HH:mm:ss
         history = open('Command History.txt', 'a')
         history.write(wholedate + ": " + commandhistory + "\n")
         history.close()

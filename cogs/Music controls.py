@@ -6,7 +6,6 @@ TODO: Add queuing system
 
 '''
 import asyncio
-from enum import Enum
 import discord
 import youtube_dl
 from discord.ext import commands
