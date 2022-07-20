@@ -6,7 +6,7 @@ from threading import Event
 from discord.ext.commands import CommandNotFound
 
 me = 267588669781573634  # sets my discord ID for quick reference
-bot = commands.Bot(command_prefix='!')  # sets the prefix you need to use when calling a command
+bot = commands.Bot(command_prefix='!', case_insensitive=True)  # sets the prefix you need to use when calling a command
 
 # gets the point value and corresponding user ID and sets them into a 2D array
 with open("tracker.json", "r") as tracker:
@@ -20,14 +20,10 @@ async def on_ready():
     print("Connected to discord as {0.user}".format(bot))
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="!help"))
 
-
-# Error catching
 @bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, CommandNotFound):
-        await ctx.send("There was an error", delete_after=5)
-        return
-    raise error
+async def on_message(message):
+    message.content = message.content_lower()
+    await bot.process_commands(message)
 
 
 # Command for loading a cog
@@ -47,8 +43,14 @@ async def unload(ctx, extension):
 # Command for reloading the cogs
 @bot.command(hidden=True)
 async def reload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-    bot.load_extension(f'cogs.{extension}')
+    if extension != 'all':
+        bot.unload_extension(f'cogs.{extension}')
+        bot.load_extension(f'cogs.{extension}')
+    if extension == 'all':
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                bot.unload_extension(f'cogs.{filename[:-3]}')
+                bot.load_extension(f'cogs.{filename[:-3]}')
     await ctx.message.delete()
 
 
@@ -56,11 +58,15 @@ async def reload(ctx, extension):
 @bot.command(hidden=True)
 async def sd(ctx):
     if ctx.message.author.id == me:
+        try:
+            await ctx.voice_client.disconnect()
+        except:
+            pass
         Event().wait(1)
         await ctx.message.delete()
         message = await ctx.send("Shutting down")
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="shutdown"))
-        Event().wait(5)
+        Event().wait(2)
         await message.delete()
         await bot.change_presence(status=discord.Status.offline)
         await bot.close()
@@ -102,9 +108,19 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if 'ferda' in message.content.lower():
-        await message.channel.send('FERDA BOIS')
+        if message.author.id == 355140850847580160:
+            await message.channel.send("No, Andrew can't use ferda anymore")
+        else:
+            await message.channel.send('FERDA BOIS')
     await bot.process_commands(message)
 
+# Error catching
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        await ctx.send("There was an error", delete_after=5)
+        return
+    raise error
 
 text_file = open("bot token.txt", "r")
 botToken = text_file.read()

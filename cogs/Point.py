@@ -69,6 +69,11 @@ class PointTracker(commands.Cog):
             response = "Something weird happened"  # Catch for if there isn't a real user specified or something else
         await ctx.send(response, delete_after=10)
 
+    #Tells bot to say something
+    @commands.command()
+    async def changelog(self, ctx):
+        await ctx.send("Andrew no longer has access to the 'ferda' command")
+
     # Removes users from the database
     @commands.command(help="Removes a user from the system")
     async def remove_user(self, ctx, user: discord.Member):
