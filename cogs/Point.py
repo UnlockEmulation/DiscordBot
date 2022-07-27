@@ -82,7 +82,18 @@ class PointTracker(commands.Cog):
         elif user is not None:
             await ctx.send(f"<@{user.id}>{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
             pass
-        
+    
+    @commands.command(hidden=True)
+    async def boiTime(self, ctx, user: discord.Member = None):
+        day = datetime.now()
+        hour = int(day.strftime('%H'))
+        if hour > 12:
+            hour = hour-12
+        if user == None:
+            await ctx.send(f"{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
+        elif user is not None:
+            await ctx.send(f"<@{user.id}>{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
+            pass
 
     # Removes users from the database
     @commands.command(help="Removes a user from the system")
