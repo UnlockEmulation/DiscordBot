@@ -71,7 +71,7 @@ class PointTracker(commands.Cog):
         await ctx.send(response, delete_after=10)
 
     #Tells bot to say something
-    @commands.command(help='Tells you when it\'s time for the bois')
+    @commands.command(help='Tells you when it\'s time for the bois', aliases=['boiTime'])
     async def boisTime(self, ctx, user: discord.Member = None):
         day = datetime.now()
         hour = int(day.strftime('%H'))
@@ -84,19 +84,6 @@ class PointTracker(commands.Cog):
             await ctx.send(f"<@{user.id}> {day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
             pass
     
-    @commands.command(hidden=True)
-    async def boiTime(self, ctx, user: discord.Member = None):
-        day = datetime.now()
-        hour = int(day.strftime('%H'))
-        await ctx.message.delete()
-        if hour > 12:
-            hour = hour-12
-        if user == None:
-            await ctx.send(f"{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
-        elif user is not None:
-            await ctx.send(f"<@{user.id}> {day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
-            pass
-
     # Removes users from the database
     @commands.command(help="Removes a user from the system")
     async def remove_user(self, ctx, user: discord.Member):
