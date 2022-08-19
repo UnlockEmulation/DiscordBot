@@ -105,7 +105,7 @@ class Music (commands.Cog):
             await ctx.send("No")
 
     async def checkQueue(self, ctx, id):
-        if self.queue[id] !=[]:
+        if self.queue[id] != []:
             voice = ctx.guild.voice_client
             source = self.queue[id].pop(0)
             voice.play(source, after=lambda x=0: self.checkQueue(ctx, ctx.message.guild.id))
@@ -162,7 +162,6 @@ class Music (commands.Cog):
 
         if not member.id == self.bot.user.id:
             return
-
         elif before.channel is None:
             voice = after.channel.guild.voice_client
             time = 0
