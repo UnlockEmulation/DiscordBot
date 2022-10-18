@@ -11,6 +11,9 @@ from threading import Event
 from main import names
 from datetime import datetime
 
+errorMessage = "Something weird happened"
+trackingFile = "tracker.json"
+
 
 class PointTracker(commands.Cog):
     def __init__(self, bot):
@@ -29,28 +32,19 @@ class PointTracker(commands.Cog):
         uid = str(uid)
         if uid not in names:
             await ctx.send("That user is not in the Database", delete_after=10)
-            pass
         elif uid in names:
             if add_remove_set == "add" or add_remove_set == "Add":
                 names[uid] = names[uid] + int(amount)
-                result = str(user.mention) + "'s new balance is: " + str(names[uid]) + " points"
-                with open("tracker.json", "w") as f:
-                    json.dump(names, f, indent=2)
-                await ctx.send(result + "\n Changed by " + ctx.message.author.mention)
             elif add_remove_set == "remove" or add_remove_set == "Remove":
                 names[uid] = names[uid] - int(amount)
-                result = str(user.mention) + "'s new balance is: " + str(names[uid]) + " points"
-                with open("tracker.json", "w") as f:
-                    json.dump(names, f, indent=2)
-                await ctx.send(result + "\n Changed by " + ctx.message.author.mention)
             elif add_remove_set == "set" or add_remove_set == 'Set':
                 names[uid] = int(amount)
-                result = str(user.mention) + "'s new balance is: " + str(names[uid]) + " points"
-                with open("tracker.json", "w") as f:
-                    json.dump(names, f, indent=2)
-                await ctx.send(result + "\n Changed by " + ctx.message.author.mention)
-            else:
-                await ctx.send("Something went wrong", delete_after=10)
+            result = str(user.mention) + "'s new balance is: " + str(names[uid]) + " points"
+            with open(trackingFile, "w") as f:
+                json.dump(names, f, indent=2)
+            await ctx.send(result + "\n Changed by " + ctx.message.author.mention)
+        else:
+            await ctx.send("Something went wrong", delete_after=10)
 
     # Adds users into the database
     @commands.command(help="Adds a user into the system")
@@ -60,14 +54,14 @@ class PointTracker(commands.Cog):
         uid = str(user.id)
         if uid not in names:
             names.update({uid: 100})
-            with open("tracker.json", "w") as f:
+            with open(trackingFile, "w") as f:
                 json.dump(names, f, indent=2)
             print(names)
             response = "User successfully added to the system"  # if the user isn't added yet
         elif uid in names:
             response = "That user is already in the system"  # if the user is already been added
         else:
-            response = "Something weird happened"  # Catch for if there isn't a real user specified or something else
+            response = errorMessage  # Catch for if there isn't a real user specified or something else
         await ctx.send(response, delete_after=10)
 
     #Tells bot to say something
@@ -82,7 +76,7 @@ class PointTracker(commands.Cog):
             await ctx.send(f"{day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
         elif user is not None:
             await ctx.send(f"<@{user.id}> {day.strftime('%A')}s at {hour}:{day.strftime('%M')} is for the bois")
-            pass
+            
     
     # Removes users from the database
     @commands.command(help="Removes a user from the system")
@@ -92,14 +86,14 @@ class PointTracker(commands.Cog):
         uid = str(user.id)
         if uid in names:
             names.pop(uid)
-            with open("tracker.json", "w") as f:
+            with open(trackingFile, "w") as f:
                 json.dump(names, f, indent=2)
             print(names)
             response = "User successfully removed"
         elif uid not in names:
             response = "User not found in database"
         else:
-            response = "Something weird happened"
+            response = errorMessage
         await ctx.send(response, delete_after=5)
 
     # Shows a specific users point value
@@ -116,7 +110,7 @@ class PointTracker(commands.Cog):
         elif str(uid) not in names:
             result = "That user is not in the database"
         else:
-            result = "Something weird happened"
+            result = errorMessage
         await ctx.send(result, delete_after=20)
 
     # Shows every users points value

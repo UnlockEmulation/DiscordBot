@@ -11,7 +11,7 @@ from discord.ext import commands
 import discord
 
 
-class profileEditing(commands.Cog):
+class profile_editing(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -19,7 +19,6 @@ class profileEditing(commands.Cog):
     async def addRole(self, ctx, user:discord.Member, *, role:discord.Role):
         await user.add_roles(role)
         await ctx.send('Role updated')
-        pass
 
     @commands.command(help="Give someone a new nickname!", aliases=['rn'])
     async def rename(self, ctx, user:discord.Member, *, name=None):
@@ -27,8 +26,7 @@ class profileEditing(commands.Cog):
             await user.edit(nick=name)
             await ctx.send('Name updated')
         elif name == None:
-            name=user.username
             await user.edit(nick=user.username)
 
 def setup(bot):
-    bot.add_cog(profileEditing(bot))
+    bot.add_cog(profile_editing(bot))
