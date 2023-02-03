@@ -20,6 +20,7 @@ async def on_ready():
     print("Connected to discord as {0.user}".format(bot))
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="!help"))
 
+
 @bot.event
 async def on_message(message):
     message.content = message.content_lower()
@@ -102,17 +103,16 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
+
 # replies to messages with ferda in the message
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
     if 'ferda' in message.content.lower():
-        if message.author.id == 355140850847580160:
-            await message.channel.send("No, Andrew can't use ferda anymore")
-        else:
-            await message.channel.send('FERDA BOIS')
+        await message.channel.send('FERDA BOIS')
     await bot.process_commands(message)
+
 
 # Error catching
 @bot.event
@@ -121,6 +121,7 @@ async def on_command_error(ctx, error):
         await ctx.send("There was an error", delete_after=5)
         return
     raise error
+
 
 text_file = open("bot token.txt", "r")
 botToken = text_file.read()
