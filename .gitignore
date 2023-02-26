@@ -1,1 +1,6 @@
 bot token.txt
+__pycache__/main.cpython-39.pyc
+cogs/__pycache__/CommandTracker.cpython-39.pyc
+cogs/__pycache__/Music.cpython-39.pyc
+cogs/__pycache__/Point.cpython-39.pyc
+cogs/__pycache__/roleAndNameEdit.cpython-39.pyc
