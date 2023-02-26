@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "bot.bat",0,True
