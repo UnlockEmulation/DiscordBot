@@ -186,3 +186,19 @@ February 07 2023 - 05:33:47: Test Bot Server > UnlockEmulation#3024 > !play http
 February 07 2023 - 05:34:06: Test Bot Server > UnlockEmulation#3024 > !sd
 February 07 2023 - 05:34:45: Test Bot Server > UnlockEmulation#3024 > !play https://www.youtube.com/watch?v=FPJyQHWGoK8
 February 07 2023 - 05:40:47: Test Bot Server > UnlockEmulation#3024 > !sd
+March 05 2023 - 00:06:57: Shit Posting > UnlockEmulation#3024 > !help
+March 05 2023 - 00:07:54: Shit Posting > UnlockEmulation#3024 > !play https://www.youtube.com/watch?v=F6SSXYdclj0&t=1120s
+March 05 2023 - 00:08:09: Shit Posting > UnlockEmulation#3024 > !stop
+March 05 2023 - 00:08:12: Shit Posting > UnlockEmulation#3024 > !play https://www.youtube.com/watch?v=F6SSXYdclj0&t=1120s
+March 05 2023 - 00:08:18: Shit Posting > UnlockEmulation#3024 > !stop
+March 05 2023 - 00:08:23: Shit Posting > UnlockEmulation#3024 > !sd
+March 25 2023 - 20:37:19: Test Bot Server > UnlockEmulation#3024 > !play test
+March 25 2023 - 20:39:04: Test Bot Server > UnlockEmulation#3024 > !stop
+March 25 2023 - 20:39:11: Test Bot Server > UnlockEmulation#3024 > !help
+March 25 2023 - 20:40:17: Test Bot Server > UnlockEmulation#3024 > !boitime
+March 25 2023 - 20:40:55: Test Bot Server > UnlockEmulation#3024 > !stop
+March 25 2023 - 20:47:35: Test Bot Server > UnlockEmulation#3024 > !reload all
+March 25 2023 - 20:47:39: Test Bot Server > UnlockEmulation#3024 > !help
+March 25 2023 - 20:47:44: Test Bot Server > UnlockEmulation#3024 > !leave
+March 25 2023 - 20:52:27: Test Bot Server > UnlockEmulation#3024 > !reload all
+March 25 2023 - 20:52:29: Test Bot Server > UnlockEmulation#3024 > !join
