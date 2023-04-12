@@ -56,6 +56,17 @@ class Music(commands.Cog):
         await ctx.voice_client.disconnect()
         self.playlist = []
 
+    @commands.command(help='Make the bot leave if they\'re connected to a voice channel', aliases=["leave"])
+    async def disconnect(self, ctx):
+        await ctx.voice_client.disconnect
+
+    @commands.command()
+    async def join(self, ctx):
+        if ctx.voice_client != ctx.author.voice:
+            self.voice_client = await ctx.author.voice.channel.connect()
+        elif ctx.voice_client == ctx.author.voice:
+            await ctx.send("I'm already connected to your voice channel", delete_after=10)
+
     @play.before_invoke
     async def ensure_voice(self, ctx):
         """Joins a voice channel if the bot is not already in one"""
